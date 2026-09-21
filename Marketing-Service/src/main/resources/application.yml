@@ -1,0 +1,23 @@
+server:
+    port: 8080
+
+spring:
+    application:
+        name: Marketing-Service
+
+resilience4j:
+    circuitbreaker:
+        instances:
+            voucherCircuitBreaker:
+                # Kiểu cửa sổ trượt tính theo số lượng request
+                sliding-window-type: COUNT_BASED
+                # Kích thước số request cần theo dõi để tính tỷ lệ lỗi
+                sliding-window-size: 5
+                # Số lượng request tối thiểu trước khi Circuit Breaker bắt đầu tính toán tỷ lệ lỗi
+                minimum-number-of-calls: 3
+                # Tỷ lệ phần trăm lỗi (%) để chuyển trạng thái từ CLOSED sang OPEN
+                failure-rate-threshold: 50
+                # Thời gian chờ ở trạng thái OPEN trước khi chuyển sang HALF_OPEN để thử kết nối lại
+                wait-duration-in-open-state: 10s
+                # Số request cho phép thử nghiệm khi ở trạng thái HALF_OPEN
+                permitted-number-of-calls-in-half-open-state: 2
